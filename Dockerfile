@@ -5,7 +5,7 @@ FROM frappe/bench:latest
 # RUN sudo apt-get update && sudo apt-get install -y ...
 
 # Create a new bench
-RUN bench init --skip-redis-config-generation --frappe-branch version-15 frappe-bench
+RUN bench init --skip-redis-config-generation --frappe-branch version-15 --python python3.11 frappe-bench
 
 WORKDIR /home/frappe/frappe-bench
 
