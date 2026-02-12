@@ -1,0 +1,3 @@
+[submodule "apps/iitdata"]
+	path = apps/iitdata
+	url = https://github.com/samrudh18/iitdata
