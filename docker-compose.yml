@@ -43,7 +43,7 @@ services:
       - REDIS_SOCKETIO=redis-socketio:6379
     volumes:
       - ./sites:/home/frappe/frappe-bench/sites
-      - ./apps:/home/frappe/frappe-bench/apps
+      - ./apps/iitdata:/home/frappe/frappe-bench/apps/iitdata
     ports:
       - "8000:8000"
     command: bench serve --port 8000
