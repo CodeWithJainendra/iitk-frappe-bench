@@ -1,0 +1,27 @@
+# Skip Bench-specific environments and logs
+env/
+logs/
+config/
+node_modules/
+*.pyc
+
+# Skip site data (database and private files)
+# Note: You might want to keep common_site_config.json if it has generic settings
+sites/frappe.test/
+sites/iit.test/
+sites/assets/
+sites/*.json
+!sites/common_site_config.json
+
+# Keep apps but exclude the frappe framework itself (since Docker will pull it)
+apps/frappe/
+apps/frappe_docker/
+
+# Keep your custom app code
+# If iitdata is already a git repo, you can push it separately or include it here
+# apps/iitdata/
+
+# Keep Docker files
+!Dockerfile
+!docker-compose.yml
+!setup_docker.sh

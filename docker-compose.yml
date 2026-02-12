@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.6
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --skip-character-set-client-handshake
+      - --innodb-file-per-table=1
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - frappe-network
+    volumes:
+      - db-data:/var/lib/mysql
+
+  redis-cache:
+    image: redis:6.2-alpine
+    networks:
+      - frappe-network
+
+  redis-queue:
+    image: redis:6.2-alpine
+    networks:
+      - frappe-network
+
+  redis-socketio:
+    image: redis:6.2-alpine
+    networks:
+      - frappe-network
+
+  frappe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: frappe-iitdata:latest
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - REDIS_CACHE=redis-cache:6379
+      - REDIS_QUEUE=redis-queue:6379
+      - REDIS_SOCKETIO=redis-socketio:6379
+    volumes:
+      - ./sites:/home/frappe/frappe-bench/sites
+      - ./apps:/home/frappe/frappe-bench/apps
+    ports:
+      - "8000:8000"
+    command: bench start
+    depends_on:
+      - db
+      - redis-cache
+      - redis-queue
+      - redis-socketio
+    networks:
+      - frappe-network
+
+networks:
+  frappe-network:
+    driver: bridge
+
+volumes:
+  db-data:
